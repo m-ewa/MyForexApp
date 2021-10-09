@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ewam.myforexapp.R
+import androidx.fragment.app.activityViewModels
+import com.ewam.myforexapp.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
 
@@ -14,19 +16,16 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
+    private var binding: MainFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+    ): View? {
+        binding = MainFragmentBinding.inflate(inflater, container, false)
+        viewModel.getAllForexData()
+        return binding?.root
     }
 
 }
