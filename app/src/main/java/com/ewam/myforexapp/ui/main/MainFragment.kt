@@ -25,7 +25,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MainFragmentBinding.inflate(inflater, container, false)
-        viewModel.getAllForexData()
+        if(viewModel.forexDataList.value.isNullOrEmpty()) viewModel.getAllForexData()
         adapter = ForexAdapter(this, viewModel){ position ->
             //TODO navigacja do detailu
             viewModel.position = position

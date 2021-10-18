@@ -39,18 +39,23 @@ class MainViewModel @Inject constructor(private val forexApiRepository: ForexApi
         _uiState.value = UIState.OnError
     }
 
+    val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN)
+    var data: Date = Date()
+    var time = data.time
+
+    init{
+        Log.i("Mytag", "data ${data.toString()}")
+
+    }
+
     fun getAllForexData() {
         _uiState.value = UIState.InProgress
         viewModelScope.launch(exceptionHandler) {
-//            _forexData.value = forexApiRepository.getLatestForexCurrencyData("USD,AUD,CAD,PLN,MXN")
-//            Log.i("Mytag", _forexData.value.toString())
-//            _forexData.value = forexApiRepository.getForexCurrencyDataByDate("2013-03-16","USD,AUD,CAD,PLN,MXN")
-//            Log.i("Mytag", _forexData.value.toString())
 
-            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN)
-            val data = Date()
+//            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN)
+//            val data = Date()
+//            var time = data.time
 
-            var time = data.time
             val arraylist = arrayListOf<DataModel>()
             for (i in 0..1){
                 val mDate = formatter.format(time)
