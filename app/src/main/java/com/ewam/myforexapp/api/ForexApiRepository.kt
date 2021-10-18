@@ -17,6 +17,7 @@ class ForexApiRepository @Inject constructor(private val service: ForexApiServic
             throw HttpException(response)
         }
     }
+
     suspend fun getForexCurrencyDataByDate(date: String, symbols: String): DataModel? {
         val response = service.getForexCurrencyDataByDate(
             date,

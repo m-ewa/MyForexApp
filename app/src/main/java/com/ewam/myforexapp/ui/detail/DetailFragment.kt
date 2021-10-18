@@ -2,7 +2,6 @@ package com.ewam.myforexapp.ui.detail
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,7 +73,6 @@ class DetailFragment : Fragment() {
         }
 
         override fun getCount(): Int {
-            Log.i("Mytag", "super.getCount() ${super.getCount()}")
             return list.size
         }
 

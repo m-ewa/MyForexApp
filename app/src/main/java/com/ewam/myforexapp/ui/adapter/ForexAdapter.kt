@@ -1,6 +1,5 @@
 package com.ewam.myforexapp.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -16,32 +15,16 @@ class ForexAdapter(
 ) :
     RecyclerView.Adapter<ItemViewHolder>() {
 
-//    var onItemClick: (Int) -> Unit = {}
-
-    //    var items: ArrayList<Item> = arrayListOf()
-//        set(value) {
-//            field = value
-//            notifyDataSetChanged()
-//        }
     var forexList: List<DataModel> = listOf()
 
     init {
-        Log.i("Mytag", " Adapter init")
-//        viewModel.forexDataList.observe(fragment.viewLifecycleOwner) { viewModelForexList ->
-//            viewModelForexList?.let {
-//                forexList = viewModelForexList
-//                notifyDataSetChanged()
-//            }
-//        }
+
         viewModel.forexDataList.observe(fragment.viewLifecycleOwner, { viewModelForexList ->
             viewModelForexList?.let {
-                Log.i("Mytag", " observe")
-//                forexList.clear()
                 forexList = viewModelForexList
                 notifyDataSetChanged()
             } ?: run {
-                Log.i("Mytag", " run")
-        }
+            }
         })
     }
 
@@ -61,8 +44,7 @@ class ForexAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = forexList[position]
-        Log.i("Mytag", " onBindViewHolder")
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             onItemClick(position)
         }
         holder.bind(item)

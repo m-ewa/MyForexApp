@@ -1,6 +1,5 @@
 package com.ewam.myforexapp.ui.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +15,8 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val forexApiRepository: ForexApiRepository
+class MainViewModel @Inject constructor(
+    private val forexApiRepository: ForexApiRepository
 ) : ViewModel() {
 
     var position = 0
@@ -34,8 +34,6 @@ class MainViewModel @Inject constructor(private val forexApiRepository: ForexApi
         get() = _uiState
 
     private val exceptionHandler = CoroutineExceptionHandler { r, rr ->
-        Log.i("Mytag r", r.toString())
-        Log.i("Mytag rr", rr.toString())
         _uiState.value = UIState.OnError
     }
 
@@ -43,30 +41,41 @@ class MainViewModel @Inject constructor(private val forexApiRepository: ForexApi
     var data: Date = Date()
     var time = data.time
 
-    init{
-        Log.i("Mytag", "data ${data.toString()}")
-
-    }
-
     fun getAllForexData() {
         _uiState.value = UIState.InProgress
         viewModelScope.launch(exceptionHandler) {
 
-//            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN)
-//            val data = Date()
-//            var time = data.time
-
             val arraylist = arrayListOf<DataModel>()
-            for (i in 0..1){
+            for (i in 0..6) {
                 val mDate = formatter.format(time)
                 time -= millisInDay
-//                _forexData.value = forexApiRepository.getLatestForexCurrencyData("USD,AUD,CAD,PLN,MXN")
-                forexApiRepository.getForexCurrencyDataByDate(mDate,"USD,AUD,CAD,PLN,MXN")?.let {
+
+                forexApiRepository.getForexCurrencyDataByDate(mDate, "USD,AUD,CAD,PLN,MXN")?.let {
                     arraylist.add(it)
                     _forexDataList.value = arraylist.toMutableList()
                 }
             }
 
+            _uiState.value = UIState.OnSuccess
+        }
+    }
+
+    fun getNextData() {
+
+        val arraylist = arrayListOf<DataModel>()
+        _forexDataList.value?.let { arraylist.addAll(it) }
+
+        _uiState.value = UIState.InProgress
+        viewModelScope.launch(exceptionHandler) {
+            for (i in 0..7) {
+                val mDate = formatter.format(time)
+                time -= millisInDay
+
+                forexApiRepository.getForexCurrencyDataByDate(mDate, "USD,AUD,CAD,PLN,MXN")?.let {
+                    arraylist.add(it)
+                    _forexDataList.value = arraylist.toMutableList()
+                }
+            }
             _uiState.value = UIState.OnSuccess
         }
     }
