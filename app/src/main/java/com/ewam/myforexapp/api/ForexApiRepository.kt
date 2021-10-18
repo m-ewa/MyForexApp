@@ -7,7 +7,7 @@ import javax.inject.Inject
 class ForexApiRepository @Inject constructor(private val service: ForexApiService) {
     suspend fun getLatestForexCurrencyData(symbols: String): DataModel? {
         val response = service.getLatestForexCurrencyData(
-            "295d816db28ef95259861991cec1e59d",
+            "9abb91b2a12547fb4374bd9c7746844e",
             symbols,
             "1"
         )
@@ -21,7 +21,7 @@ class ForexApiRepository @Inject constructor(private val service: ForexApiServic
     suspend fun getForexCurrencyDataByDate(date: String, symbols: String): DataModel? {
         val response = service.getForexCurrencyDataByDate(
             date,
-            "295d816db28ef95259861991cec1e59d",
+            "9abb91b2a12547fb4374bd9c7746844e",
             symbols,
             "1"
         )
